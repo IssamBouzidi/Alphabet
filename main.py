@@ -47,19 +47,19 @@ entrainement = model.fit_generator(train_generator, steps_per_epoch=32, epochs=2
 def get_result(result):
     if result[0][0] == 1:
         return("A")
-    elif result[0][1] == 1:
+    elif result[0][0] == 1:
         return ("B")
-    elif result[0][2] == 1:
+    elif result[0][0] == 1:
         return ("C")
-    elif result[0][3] == 1:
+    elif result[0][0] == 1:
         return ("D")
-    elif result[0][4] == 1:
+    elif result[0][0] == 1:
         return ("E")
-    elif result[0][5] == 1:
+    elif result[0][0] == 1:
         return ("F")
-    elif result[0][6] == 1:
+    elif result[0][0] == 1:
         return ("G")
-    elif result[0][7] == 1:
+    elif result[0][0] == 1:
         return ("H")
     elif result[0][8] == 1:
         return ("I")
