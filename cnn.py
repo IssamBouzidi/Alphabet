@@ -53,10 +53,10 @@ test_generator = test_datagen.flow_from_directory(directory="data/TEST", target_
 # %%
 entrainement = model.fit_generator(
     train_generator, 
-    steps_per_epoch=63, # nombre d'image entrainée par lot ==> nombre d'images souhaitées / nombre de lot, ici on suppose on veut entrainé 1000 donc 2000 / 32 (batch_size)
+    steps_per_epoch=63, # nombre d'image entrainées par lot ==> nombre d'images souhaitées / nombre de lot, ici on suppose on veut entrainé 1000 donc 2000 / 32 (batch_size)
     epochs=25, 
     validation_data=test_generator, 
-    validation_steps=16 # nombre d'image tesé par lot ==> nombre d'images souhaitées / nombre de lot, ici on suppose on veut testé 400 donc 600 / 32 (batch_size)
+    validation_steps=16 # nombre d'image testées par lot ==> nombre d'images souhaitées / nombre de lot, ici on suppose on veut testé 400 donc 600 / 32 (batch_size)
 )
 
 
