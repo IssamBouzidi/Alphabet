@@ -27,7 +27,7 @@ model = load_model('alphabet_model.h5')
 # load the input image from disk, convert it to grayscale, and blur
 # it to reduce noise
 # image = cv2.imread(args["image"])
-image = cv2.imread("images/test.jpeg")
+image = cv2.imread("data/VALIDATION/test.jpeg")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 
