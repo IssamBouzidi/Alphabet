@@ -158,7 +158,7 @@ data/TRAINING/*
 data/VALIDATION/*
 data/RAW
 !data/**/.gitkeep
-
+functions/helpers.py
 .history/
 
 alphabet_model.h5

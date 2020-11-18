@@ -1,5 +1,8 @@
 # To add a new cell, type '# %%'
 # To add a new markdown cell, type '# %% [markdown]'
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 # %%
 import numpy as np
 # import matplotlib.pyplot as plt
@@ -8,7 +11,6 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing import image
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Activation, Dropout
-import os
 import pickle
 
 
@@ -17,7 +19,7 @@ model = Sequential()
 
 
 # %%
-model.add(Conv2D(filters = 32, kernel_size = (3, 3), input_shape=(28,28,3), activation="relu"))
+model.add(Conv2D(filters = 32, kernel_size = (3, 3), input_shape=(28,28,1), activation="relu"))
 model.add(MaxPooling2D(pool_size = (2, 2)))
 
 
@@ -33,7 +35,7 @@ model.add(Flatten())
 # %%
 model.add(Dense(units=128, activation="relu"))
 model.add(Dropout(0.3))
-model.add(Dense(units=3, activation="softmax")) # valeurs de units represente le nombre de valeurs de sortie, ici, c'est 26 nombre de lettre de l'alphabet
+model.add(Dense(units=26, activation="softmax")) # valeurs de units represente le nombre de valeurs de sortie, ici, c'est 26 nombre de lettre de l'alphabet
 
 
 # %%
@@ -41,18 +43,35 @@ model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accur
 
 
 # %%
-train_datagen = ImageDataGenerator(rescale=1./255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True, vertical_flip=True)
+train_datagen = ImageDataGenerator(
+        rescale=1./255, 
+        shear_range=0.2, 
+        zoom_range=0.2,
+        horizontal_flip=True, 
+        vertical_flip=True
+    )
 
 test_datagen = ImageDataGenerator(rescale=1./255)
 
-train_generator = train_datagen.flow_from_directory(directory="data/TRAINING", target_size=(28, 28), batch_size=32, class_mode="categorical")
+train_generator = train_datagen.flow_from_directory(
+    directory="data/TRAINING", 
+    target_size=(28, 28), 
+    batch_size=32, 
+    class_mode="categorical",
+    color_mode="grayscale"
+    )
 
-test_generator = test_datagen.flow_from_directory(directory="data/TEST", target_size=(28,28), batch_size=32, class_mode="categorical")
+test_generator = test_datagen.flow_from_directory(
+    directory="data/TEST", 
+    target_size=(28,28), 
+    batch_size=32,
+    class_mode="categorical",
+    color_mode="grayscale")
 
 
 # %%
 entrainement = model.fit_generator(
-    train_generator, 
+    train_generator,
     steps_per_epoch=63, # nombre d'image entrainée par lot ==> nombre d'images souhaitées / nombre de lot, ici on suppose on veut entrainé 1000 donc 2000 / 32 (batch_size)
     epochs=25, 
     validation_data=test_generator, 
