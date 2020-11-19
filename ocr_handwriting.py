@@ -1,6 +1,3 @@
-# USAGE
-# python ocr_handwriting.py --model handwriting.model --image images/umbc_address.png
-
 # import the necessary packages
 from tensorflow.keras.models import load_model
 from imutils.contours import sort_contours
@@ -8,16 +5,8 @@ import numpy as np
 import argparse
 import imutils
 import cv2
-
-# construct the argument parser and parse the arguments
-# ap = argparse.ArgumentParser()
-# ap.add_argument("-i", "--image", required=True,
-# 	help="path to input image")
-# ap.add_argument("-m", "--model", type=str, required=True,
-# 	help="path to trained handwriting recognition model")
-# args = vars(ap.parse_args())
-
-
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # load the handwriting OCR model
 print("[INFO] loading handwriting OCR model...")
@@ -26,16 +15,16 @@ model = load_model('alphabet_model.h5')
 
 # load the input image from disk, convert it to grayscale, and blur
 # it to reduce noise
-# image = cv2.imread(args["image"])
-image = cv2.imread("data/VALIDATION/test.jpeg")
+image = cv2.imread("data/VALIDATION/hello_world.png")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 
 # perform edge detection, find contours in the edge map, and sort the
 # resulting contours from left-to-right
 edged = cv2.Canny(blurred, 30, 150)
-cnts = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL,
-	cv2.CHAIN_APPROX_SIMPLE)
+
+cnts = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
 cnts = imutils.grab_contours(cnts)
 cnts = sort_contours(cnts, method="left-to-right")[0]
 
@@ -55,8 +44,7 @@ for c in cnts:
 		# appear as *white* (foreground) on a *black* background, then
 		# grab the width and height of the thresholded image
 		roi = gray[y:y + h, x:x + w]
-		thresh = cv2.threshold(roi, 0, 255,
-			cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+		thresh = cv2.threshold(roi, 0, 255,cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 		(tH, tW) = thresh.shape
 
 		# if the width is greater than the height, resize along the
@@ -72,8 +60,8 @@ for c in cnts:
 		# and then determine how much we need to pad the width and
 		# height such that our image will be 28x28
 		(tH, tW) = thresh.shape
-		dX = int(max(0, 28 - tW) / 2.0)
-		dY = int(max(0, 28 - tH) / 2.0)
+		dX = 4 #int(max(0, 28 - tW) / 2.0)
+		dY = 4 #int(max(0, 28 - tH) / 2.0)
 
 		# pad the image and force 28x28 dimensions
 		padded = cv2.copyMakeBorder(thresh, top=dY, bottom=dY,
@@ -88,6 +76,7 @@ for c in cnts:
 
 		# update our list of characters that will be OCR'd
 		chars.append((padded, (x, y, w, h)))
+	# end if
 
 # extract the bounding box locations and padded characters
 boxes = [b[1] for b in chars]
@@ -113,8 +102,8 @@ for (pred, (x, y, w, h)) in zip(preds, boxes):
 	# draw the prediction on the image
 	print("[INFO] {} - {:.2f}%".format(label, prob * 100))
 	cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-	cv2.putText(image, label, (x - 10, y - 10),
-		cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 2)
+	cv2.putText(image, label, (x - 10, y - 10),	cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+	
 
 # show the image
 cv2.imshow("Image", image)
