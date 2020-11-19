@@ -50,7 +50,7 @@ for c in cnts:
 
 	# filter out bounding boxes, ensuring they are neither too small
 	# nor too large
-	if (w >= 5 and w <= 150) and (h >= 15 and h <= 120):
+	if (w >= 5 and w <= 150) and (h >= 40 and h <= 120):
 		# extract the character and threshold it to make the character
 		# appear as *white* (foreground) on a *black* background, then
 		# grab the width and height of the thresholded image
@@ -116,8 +116,6 @@ for (pred, (x, y, w, h)) in zip(preds, boxes):
 	cv2.putText(image, label, (x - 10, y - 10),
 		cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0), 2)
 
-	# show the image
-	cv2.imshow("Image", image)
-	# cv2.waitKey(0)
-
+# show the image
+cv2.imshow("Image", image)
 cv2.waitKey(0)

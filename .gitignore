@@ -157,6 +157,7 @@ data/TEST/*
 data/TRAINING/*
 data/VALIDATION/*
 data/RAW
+data/archive.zip
 !data/**/.gitkeep
 functions/helpers.py
 .history/
