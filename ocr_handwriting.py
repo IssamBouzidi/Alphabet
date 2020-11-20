@@ -6,12 +6,13 @@ import argparse
 import imutils
 import cv2
 import os
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # load the handwriting OCR model
 print("[INFO] loading handwriting OCR model...")
 # model = load_model(args["model"])
-model = load_model('alphabet_model.h5')
+model = load_model('alphabet_model_maxime.h5')
 
 # load the input image from disk, convert it to grayscale, and blur
 # it to reduce noise
