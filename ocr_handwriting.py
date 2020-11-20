@@ -87,8 +87,8 @@ preds = model.predict(chars)
 
 # define the list of label names
 
-labelNames = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-labelNames += "0123456789"
+labelNames = "0123456789"
+labelNames += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 labelNames = [l for l in labelNames]
 
 # loop over the predictions and bounding box locations together
