@@ -40,7 +40,8 @@ for c in cnts:
 
 	# filter out bounding boxes, ensuring they are neither too small
 	# nor too large
-	if (w >= 5 and w <= 150) and (h >= 40 and h <= 120):
+	# if (w >= 5 and w <= 150) and (h >= 40 and h <= 120):
+	if True:
 		# extract the character and threshold it to make the character
 		# appear as *white* (foreground) on a *black* background, then
 		# grab the width and height of the thresholded image
@@ -51,18 +52,18 @@ for c in cnts:
 		# if the width is greater than the height, resize along the
 		# width dimension
 		if tW > tH:
-			thresh = imutils.resize(thresh, width=28)
+			thresh = imutils.resize(thresh, width=24)
 
 		# otherwise, resize along the height
 		else:
-			thresh = imutils.resize(thresh, height=28)
+			thresh = imutils.resize(thresh, height=24)
 
 		# re-grab the image dimensions (now that its been resized)
 		# and then determine how much we need to pad the width and
 		# height such that our image will be 28x28
 		(tH, tW) = thresh.shape
-		dX = 4 #int(max(0, 28 - tW) / 2.0)
-		dY = 4 #int(max(0, 28 - tH) / 2.0)
+		dX = 2 #int(max(0, 28 - tW) / 2.0)
+		dY = 2 #int(max(0, 28 - tH) / 2.0)
 
 		# pad the image and force 28x28 dimensions
 		padded = cv2.copyMakeBorder(thresh, top=dY, bottom=dY,
@@ -88,8 +89,8 @@ preds = model.predict(chars)
 
 # define the list of label names
 
-labelNames = "0123456789"
-labelNames += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+# labelNames = "0123456789"
+labelNames = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 labelNames = [l for l in labelNames]
 
 # loop over the predictions and bounding box locations together
@@ -103,9 +104,10 @@ for (pred, (x, y, w, h)) in zip(preds, boxes):
 	# draw the prediction on the image
 	print("[INFO] {} - {:.2f}%".format(label, prob * 100))
 	cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-	cv2.putText(image, label, (x - 10, y - 10),	cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+	cv2.putText(image, label, (x, y),	cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 	
 
 # show the image
 cv2.imshow("Image", image)
+# cv2.imwrite(os.path.join(os.getcwd(), 'result.png'), image)
 cv2.waitKey(0)
