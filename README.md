@@ -40,7 +40,7 @@ Avant de lancer les différents scripts de création et d'entrainement du modèl
 
 Pour démarrer le projet, il suffit d'ouvrir le fichier "cnn.ipynb" et d'exécuter les cellules dans l'ordre. Le modèle créé sera directement enregistré à la racine du projet sous le nom "alphabet_model.h5".
 
-RAJOUTER PARAGRAPHE POUR EXPLIQUER L'OCR
+Pour utiliser le fichier "ocr_handwriting.py" il suffit de l'exécuter. il utilisera automatiquemennt le modèle nommé "alphabet_model.h5".
 
 
 ## Auteurs
